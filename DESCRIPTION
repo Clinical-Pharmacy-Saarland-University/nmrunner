@@ -1,0 +1,15 @@
+Package: nmrunner
+Title: Starts NONMEM runs via R and fetches results
+Version: 0.0.0.9000
+Authors@R: 
+    person("Dominik", "Selzer", , "dominik.selzer@uni-saarland.de", role = c("aut", "cre"))
+Description: `nmrunner` facilitates the initiation of NONMEM runs directly from R and subsequently retrieves the results. Designed for compatibility with both Windows and Linux, it offers a suite of auxiliary functions tailored for integration into APIs or interactive platforms like Shiny apps. Emphasizing simplicity, the package is intentionally minimalistic.
+License: file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Imports: 
+    checkmate,
+    fs,
+    glue,
+    stringr
