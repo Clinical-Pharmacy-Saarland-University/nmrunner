@@ -28,7 +28,17 @@ nm_run(
 and it is checked if this files exists in the folder of the model.}
 }
 \value{
-\code{TRUE} on success and \code{FALSE} on a failed execution.
+A list with the following items:
+\itemize{
+\item \code{success} \code{TRUE} or \code{FALSE} that indicate if the execution was sucessful (this does not
+indicate that the run was successful).
+\item \code{exec_time} The execution time in seconds.
+\item \code{mod_file} The full path to the NONMEM model file that was executed.
+\item \code{sdtab_file} The full path to the NONMEM output \code{sdtab} file (or \code{NA} if it could not be parsed
+from the \code{mod} file).
+\item \code{data_file} The full path to the NONMEM data stream file (or \code{NA} if it could not be parsed
+from the \code{mod} file).
+}
 }
 \description{
 The NONMEM run will be executed within the folder of the model file.
