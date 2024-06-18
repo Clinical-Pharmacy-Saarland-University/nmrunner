@@ -18,7 +18,7 @@ You need an active and valid `NONMEM` licence installed on your machine.
 ```r
 library(nmrunner)
 
-run_info <- run_infos <- test_nm("/opt/nonmem/nm751/run/nmfe75")
+run_info <- test_nm("/opt/nonmem/nm751/run/nmfe75")
 
 cat("Success:\n", run_info$success)
 cat("NONMEM Console Output:\n", run_info$msg)
