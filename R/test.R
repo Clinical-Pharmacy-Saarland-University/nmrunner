@@ -6,7 +6,7 @@
 #' Test NONMEM Execution Capability
 #'
 #' This function tests the system's ability to execute NONMEM models by attempting to
-#' start a NONMEM run via an ingternal test model. It checks
+#' start a NONMEM run via an internal test model. It checks
 #' file paths, prepares a test environment, and captures any execution errors. The
 #' function is useful for validating the setup of NONMEM in an R environment works.
 #'
