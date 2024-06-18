@@ -1,5 +1,5 @@
 <!-- START_BADGES -->
-[![Project Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active/) [![Package version](https://img.shields.io/badge/Version-1.0.0-green.svg)](https://github.com/Clinical-Pharmacy-Saarland-University/nmrunner/) [![minimal R version](https://img.shields.io/badge/R%3E%3D-4.1.0-blue.svg)](https://cran.r-project.org/)
+[![Project Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active/) [![Package version](https://img.shields.io/badge/Version-1.0.1-green.svg)](https://github.com/Clinical-Pharmacy-Saarland-University/nmrunner/) [![minimal R version](https://img.shields.io/badge/R%3E%3D-4.1.0-blue.svg)](https://cran.r-project.org/)
 ---
 <!-- END_BADGES -->
 

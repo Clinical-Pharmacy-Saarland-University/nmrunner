@@ -1,6 +1,6 @@
 Package: nmrunner
 Title: Start NONMEM runs via R
-Version: 1.0.0
+Version: 1.0.1
 URL: https://github.com/Clinical-Pharmacy-Saarland-University/nmrunner
 BugReports: https://github.com/Clinical-Pharmacy-Saarland-University/nmrunner/issues
 Authors@R: 

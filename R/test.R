@@ -15,12 +15,12 @@
 #' script on linux (e.g. `nm751/run/nmfe75`).
 #'
 #' @param nm_starter The script of the NONMEM executable. See details for more infos.
-#' @param @param debug If `TRUE`, `stdout` output will be displayed. The output will be captured and
+#' @param debug If `TRUE`, `stdout` output will be displayed. The output will be captured and
 #' print via `cat`.
 #'
 #' @return A list containing the following components:
-#'         - `success`: Logical, TRUE if NONMEM run was successful, FALSE otherwise.
-#'         - `msg`: Character string, contains NONMEM console output from the test run or error information.
+#' * `success`: `TRUE` if NONMEM run was successful, `FALSE` otherwise.
+#' * `msg`: Character string that contains NONMEM console output from the test run or error information.
 #'
 #' @examples
 #' \dontrun{

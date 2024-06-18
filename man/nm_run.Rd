@@ -31,8 +31,9 @@ and it is checked if this files exists in the folder of the model.}
 \value{
 A list with the following items:
 \itemize{
-\item \code{success} \code{TRUE} or \code{FALSE} that indicate if the execution was sucessful (this does not
-indicate that the run was successful).
+\item \code{success} \code{TRUE} or \code{FALSE} that indicate if the execution was successful (this does not
+indicate that the run was successful). If the run is timed out, \code{success} is \code{FALSE}.
+\item \code{timeout} \code{TRUE} or \code{FALSE} if the run was timed out (only possible if \code{timeout > 0} was set).
 \item \code{exec_time} The execution time in seconds.
 \item \code{console_output} The console output of NONMEM as a single string.
 \item \code{mod_file} The full path to the NONMEM model file that was executed.

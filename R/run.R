@@ -14,8 +14,9 @@
 #' and it is checked if this files exists in the folder of the model.
 #'
 #' @return A list with the following items:
-#' * `success` `TRUE` or `FALSE` that indicate if the execution was sucessful (this does not
-#' indicate that the run was successful).
+#' * `success` `TRUE` or `FALSE` that indicate if the execution was successful (this does not
+#' indicate that the run was successful). If the run is timed out, `success` is `FALSE`.
+#' * `timeout` `TRUE` or `FALSE` if the run was timed out (only possible if `timeout > 0` was set).
 #' * `exec_time` The execution time in seconds.
 #' * `console_output` The console output of NONMEM as a single string.
 #' * `mod_file` The full path to the NONMEM model file that was executed.
@@ -69,6 +70,7 @@ nm_run <- function(mod_file,
 
   result <- list(
     success = FALSE,
+    timeout = FALSE,
     exec_time = NA,
     console_output = NA,
     mod_file = mod_file,
@@ -91,6 +93,7 @@ nm_run <- function(mod_file,
   try(file.remove(trash_files) |> suppressWarnings(), silent = TRUE)
 
   result$success <- status == 0
+  result$timeout <- status == 124
   result$console_output = paste(sys_res, collapse = "\n")
 
   if (debug) {

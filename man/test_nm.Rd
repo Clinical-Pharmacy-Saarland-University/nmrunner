@@ -9,13 +9,15 @@ test_nm(nm_starter, debug = FALSE)
 \arguments{
 \item{nm_starter}{The script of the NONMEM executable. See details for more infos.}
 
-\item{@param}{debug If \code{TRUE}, \code{stdout} output will be displayed. The output will be captured and
+\item{debug}{If \code{TRUE}, \code{stdout} output will be displayed. The output will be captured and
 print via \code{cat}.}
 }
 \value{
 A list containing the following components:
-- \code{success}: Logical, TRUE if NONMEM run was successful, FALSE otherwise.
-- \code{msg}: Character string, contains NONMEM console output from the test run or error information.
+\itemize{
+\item \code{success}: \code{TRUE} if NONMEM run was successful, \code{FALSE} otherwise.
+\item \code{msg}: Character string that contains NONMEM console output from the test run or error information.
+}
 }
 \description{
 This function tests the system's ability to execute NONMEM models by attempting to
