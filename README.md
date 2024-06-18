@@ -1,13 +1,10 @@
 <!-- START_BADGES -->
-[![Project Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active/) [![Package version](https://img.shields.io/badge/GitHub-0.0.0.9000-orange.svg)](https://github.com/Clinical-Pharmacy-Saarland-University/nmrunner/) [![minimal R version](https://img.shields.io/badge/R%3E%3D-4.1.0-blue.svg)](https://cran.r-project.org/)
+[![Project Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active/) [![Package version](https://img.shields.io/badge/Version-1.0.0-green.svg)](https://github.com/Clinical-Pharmacy-Saarland-University/nmrunner/) [![minimal R version](https://img.shields.io/badge/R%3E%3D-4.1.0-blue.svg)](https://cran.r-project.org/)
 ---
 <!-- END_BADGES -->
 
 # nmrunner: Start NONMEM runs via R
 `nmrunner` facilitates the initiation of NONMEM runs directly from `R` and subsequently retrieves the results. Designed for compatibility with both `Windows` and `Linux`, it offers a suite of auxiliary functions tailored for integration into `APIs` or interactive platforms like `Shiny` apps. Emphasizing simplicity, the package is intentionally minimalistic.
-
-## Status
-The package is currently **under development** and API and functionality is **not stable**.
 
 ## Install
 ```r
@@ -16,6 +13,17 @@ devtools::install_github("Clinical-Pharmacy-Saarland-University/nmrunner")
 You need an active and valid `NONMEM` licence installed on your machine.
 
 ## Usage
+
+### Test NONMEM in the R environment
+```r
+library(nmrunner)
+
+run_info <- run_infos <- test_nm("/opt/nonmem/nm751/run/nmfe75")
+
+cat("Success:\n", run_info$success)
+cat("NONMEM Console Output:\n", run_info$msg)
+```
+
 
 ### Run a NONMEM model in a folder
 ```r

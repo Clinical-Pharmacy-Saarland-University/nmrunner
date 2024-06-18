@@ -5,10 +5,11 @@
 #' script on linux (e.g. `nm751/run/nmfe75`).
 #'
 #' @param mod_file A valid path to the NONMEM model file.
-#' @param nm_starter The script ot the NONMEM executable. See details for more infos.
+#' @param nm_starter The script of the NONMEM executable. See details for more infos.
 #' @param out_file_name A name for the NONMEM output file.
 #' @param timeout Timeout in seconds. If 0, no timeout is set.
-#' @param debug If `TRUE`, `stdout` output will be displayed.
+#' @param debug If `TRUE`, `stdout` output will be displayed. The output will be captured and
+#' print via `cat`.
 #' @param check_data_file If `TRUE` the data stream file name will be parsed from the model file
 #' and it is checked if this files exists in the folder of the model.
 #'
@@ -16,6 +17,7 @@
 #' * `success` `TRUE` or `FALSE` that indicate if the execution was sucessful (this does not
 #' indicate that the run was successful).
 #' * `exec_time` The execution time in seconds.
+#' * `console_output` The console output of NONMEM as a single string.
 #' * `mod_file` The full path to the NONMEM model file that was executed.
 #' * `sdtab_file` The full path to the NONMEM output `sdtab` file (or `NA` if it could not be parsed
 #' from the `mod` file).
@@ -68,6 +70,7 @@ nm_run <- function(mod_file,
   result <- list(
     success = FALSE,
     exec_time = NA,
+    console_output = NA,
     mod_file = mod_file,
     sdtab_file = file.path(run_folder, infos$sdtab_file),
     data_file = file.path(run_folder, infos$data_file)
@@ -77,14 +80,23 @@ nm_run <- function(mod_file,
     normalizePath()
   mod_file <- basename(mod_file)
   rundir_arg <- glue::glue("-rundir=\"{run_folder_norm}\"")
-  call <- glue::glue("{nm_starter} {mod_file} {out_file_name} {rundir_arg}")
-  sys_res <- system(call, ignore.stdout = !debug, timeout = timeout) |> suppressWarnings()
+  args <- c(mod_file, out_file_name, rundir_arg)
+  sys_res <- system2(nm_starter, args, stderr  = TRUE, stdout = TRUE, timeout = timeout) |> suppressWarnings()
+
+  status <- attr(sys_res, "status")
+  status <- ifelse(is.null(status), 0, status)
 
   # remove this anoying trash files if possible
   trash_files <- c('condor.set', 'condorarguments.set', 'condoropenmpiscript.set', 'trash.tmp')
   try(file.remove(trash_files) |> suppressWarnings(), silent = TRUE)
 
-  result$success <- sys_res == 0
+  result$success <- status == 0
+  result$console_output = paste(sys_res, collapse = "\n")
+
+  if (debug) {
+    cat(result$console_output)
+  }
+
   end_time <- proc.time()["elapsed"]
   result$exec_time <- end_time - start_time
 

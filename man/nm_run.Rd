@@ -16,13 +16,14 @@ nm_run(
 \arguments{
 \item{mod_file}{A valid path to the NONMEM model file.}
 
-\item{nm_starter}{The script ot the NONMEM executable. See details for more infos.}
+\item{nm_starter}{The script of the NONMEM executable. See details for more infos.}
 
 \item{out_file_name}{A name for the NONMEM output file.}
 
 \item{timeout}{Timeout in seconds. If 0, no timeout is set.}
 
-\item{debug}{If \code{TRUE}, \code{stdout} output will be displayed.}
+\item{debug}{If \code{TRUE}, \code{stdout} output will be displayed. The output will be captured and
+print via \code{cat}.}
 
 \item{check_data_file}{If \code{TRUE} the data stream file name will be parsed from the model file
 and it is checked if this files exists in the folder of the model.}
@@ -33,6 +34,7 @@ A list with the following items:
 \item \code{success} \code{TRUE} or \code{FALSE} that indicate if the execution was sucessful (this does not
 indicate that the run was successful).
 \item \code{exec_time} The execution time in seconds.
+\item \code{console_output} The console output of NONMEM as a single string.
 \item \code{mod_file} The full path to the NONMEM model file that was executed.
 \item \code{sdtab_file} The full path to the NONMEM output \code{sdtab} file (or \code{NA} if it could not be parsed
 from the \code{mod} file).
