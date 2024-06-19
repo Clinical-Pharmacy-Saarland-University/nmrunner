@@ -1,5 +1,3 @@
-
-
 #' Reads information from a NONMEM model file
 #'
 #' @param mod_file Valid path to a NONMEM model file. The file must be readable.
@@ -13,9 +11,9 @@
 #' @export
 #'
 #' @examples
-#'\dontrun{
+#' \dontrun{
 #' infos <- mod_info("path/my_nm_model.mod")
-#'}
+#' }
 mod_info <- function(mod_file) {
   checkmate::assert_file_exists(mod_file, access = "r")
   lines <- readr::read_lines(mod_file, progress = FALSE)
