@@ -1,3 +1,6 @@
+`%||%` <- function(a, b) if (is.null(a) || is.na(a)) b else a
+
+
 #' Parse NONMEM License Information
 #'
 #' Runs a short NONMEM test via [test_nm()] and parses license-related
@@ -33,10 +36,10 @@ nm_lic_info <- function(nm_starter) {
     expiration_date = NA_character_,
     current_date = NA_character_,
     expired = TRUE,
-    days_left = NA_character_,
+    days_left = NA_integer_,
     error = NA_character_
   ) {
-    list(
+    out <- list(
       registered_to = registered_to,
       expiration_date = expiration_date,
       current_date = current_date,
@@ -44,6 +47,7 @@ nm_lic_info <- function(nm_starter) {
       days_left = days_left,
       error = error
     )
+    out
   }
 
   res <- test_nm(nm_starter)
@@ -51,45 +55,48 @@ nm_lic_info <- function(nm_starter) {
     return(make_result(error = res$msg))
   }
 
-  msg <- res$msg
-
+  msg <- res$msg %||% ""
   if (grepl("ERROR reading license file", msg, fixed = TRUE)) {
-    return(make_result(error = "Undefined error reading licence file"))
+    return(make_result(error = "Undefined error reading license file"))
   }
 
-  get_or_na <- function(pattern, x) {
-    if (grepl(pattern, x, perl = TRUE)) {
-      trimws(sub(pattern, "\\1", x, perl = TRUE))
-    } else {
-      NA_character_
+  lines <- unlist(strsplit(msg, "\\r?\\n", useBytes = TRUE))
+  trim <- function(z) sub("^\\s+|\\s+$", "", z, perl = TRUE)
+
+  get_after_colon <- function(prefix) {
+    i <- grep(paste0("^", prefix), lines, perl = TRUE)
+    if (length(i) == 0) {
+      return(NA_character_)
     }
+    val <- sub(paste0("^", prefix, "\\s*:?\\s*"), "", lines[i[1]], perl = TRUE)
+    trim(val)
   }
 
-  registered_to <- get_or_na(".*License Registered to:\\s*([^\\r\\n]+).*", msg)
-  expiration_date <- get_or_na(".*Expiration Date:\\s*([0-9A-Z ]+).*", msg)
-  current_date <- get_or_na(".*Current Date:\\s*([0-9A-Z ]+).*", msg)
+  registered_to <- get_after_colon("License Registered to:")
+  expiration_date <- get_after_colon("Expiration Date:")
+  current_date <- get_after_colon("Current Date:")
 
-  expired <- grepl("NONMEM LICENSE HAS EXPIRED", msg, fixed = TRUE)
+  expired <- any(grepl("NONMEM LICENSE HAS EXPIRED", lines, fixed = TRUE))
 
-  days_left <- NA_integer_
-  if (!expired && grepl("Days until program expires", msg, fixed = TRUE)) {
-    if (
-      grepl(".*Days until program expires\\s*:\\s*([0-9]+).*", msg, perl = TRUE)
-    ) {
-      days_left <- as.integer(sub(
-        ".*Days until program expires\\s*:\\s*([0-9]+).*",
-        "\\1",
-        msg,
-        perl = TRUE
-      ))
+  days_left <- {
+    i <- grep("^Days until program expires", lines, perl = TRUE)
+    if (length(i) == 0) {
+      NA_integer_
+    } else {
+      num <- sub(".*?([0-9]+).*", "\\1", lines[i[1]], perl = TRUE)
+      if (grepl("^[0-9]+$", num)) as.integer(num) else NA_integer_
     }
   }
 
   make_result(
-    registered_to = registered_to,
-    expiration_date = expiration_date,
-    current_date = current_date,
-    expired = expired,
+    registered_to = if (nzchar(registered_to)) registered_to else NA_character_,
+    expiration_date = if (nzchar(expiration_date)) {
+      expiration_date
+    } else {
+      NA_character_
+    },
+    current_date = if (nzchar(current_date)) current_date else NA_character_,
+    expired = isTRUE(expired),
     days_left = days_left
   )
 }
