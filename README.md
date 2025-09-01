@@ -1,20 +1,25 @@
 <!-- START_BADGES -->
-[![Project Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active/) [![Package version](https://img.shields.io/badge/Version-1.0.1-green.svg)](https://github.com/Clinical-Pharmacy-Saarland-University/nmrunner/) [![minimal R version](https://img.shields.io/badge/R%3E%3D-4.1.0-blue.svg)](https://cran.r-project.org/)
----
+
+## [![Project Status](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active/) [![Package version](https://img.shields.io/badge/Version-1.0.1-green.svg)](https://github.com/Clinical-Pharmacy-Saarland-University/nmrunner/) [![minimal R version](https://img.shields.io/badge/R%3E%3D-4.1.0-blue.svg)](https://cran.r-project.org/)
+
 <!-- END_BADGES -->
 
 # nmrunner: Start NONMEM runs via R
+
 `nmrunner` facilitates the initiation of NONMEM runs directly from `R` and subsequently retrieves the results. Designed for compatibility with both `Windows` and `Linux`, it offers a suite of auxiliary functions tailored for integration into `APIs` or interactive platforms like `Shiny` apps. Emphasizing simplicity, the package is intentionally minimalistic.
 
 ## Install
+
 ```r
 devtools::install_github("Clinical-Pharmacy-Saarland-University/nmrunner")
 ```
+
 You need an active and valid `NONMEM` licence installed on your machine.
 
 ## Usage
 
 ### Test NONMEM in the R environment
+
 ```r
 library(nmrunner)
 
@@ -24,8 +29,17 @@ cat("Success:\n", run_info$success)
 cat("NONMEM Console Output:\n", run_info$msg)
 ```
 
+### Parse NONMEM licence information
+
+```r
+library(nmrunner)
+
+lic_info <- nm_lic_info("/opt/nonmem/nm751/run/nmfe75")
+lic_info
+```
 
 ### Run a NONMEM model in a folder
+
 ```r
 library(nmrunner)
 
@@ -37,6 +51,7 @@ head(sim_tab)
 ```
 
 ### Parse sdtab and data stream file names from mod files
+
 ```r
 library(nmrunner)
 
@@ -47,6 +62,7 @@ print(infos$sdtab_file)
 ```
 
 ### Create a run folder and execute a model
+
 ```r
 library(nmrunner)
 
@@ -64,6 +80,7 @@ res_df <- read_sdtab(run_info$sdtab_file)
 ```
 
 ### Use in API/App with a randomly created run folders async
+
 ```r
 library(nmrunner)
 library(purrr)
@@ -81,7 +98,7 @@ df_2 <- read.csv(data_file) |> mutate(DV = DV * 1.2)
 
 # run a model with different data streams provided via data.frames
 # this creates randomly named folders for execution and deletes them after reading the
-# sdtab file 
+# sdtab file
 run_model <- function(data_frame) {
   run_folder <- create_rnd_run_folder(mod_file, run_base, data_frame = data_frame)
   on.exit({
@@ -90,13 +107,13 @@ run_model <- function(data_frame) {
     try_remove <- insistently(remove_run_folder, rate_delay(pause = 0.5, max_times = 10))
     try_remove(run_folder$path)
   })
-  
+
   # use a timeout of 360 seconds for a run
   run_info <- nm_run(run_folder$mod_file, nm_starter, timeout = 360)
   if (!run_info$success) {
     stop("Run failed", call. = FALSE)
   }
-  
+
   print(paste("Runtime [sec]: ", run_info$exec_time))
   read_sdtab(run_info$sdtab_file)
 }

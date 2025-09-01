@@ -1,6 +1,6 @@
 Package: nmrunner
 Title: Start NONMEM runs via R
-Version: 1.0.1
+Version: 1.1.0
 URL: https://github.com/Clinical-Pharmacy-Saarland-University/nmrunner
 BugReports: https://github.com/Clinical-Pharmacy-Saarland-University/nmrunner/issues
 Authors@R: 
@@ -9,7 +9,7 @@ Description: `nmrunner` facilitates the initiation of NONMEM runs directly from 
 License: file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Depends: R (>= 4.1.0)
 Imports: 
     checkmate,

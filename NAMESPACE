@@ -3,6 +3,7 @@
 export(create_rnd_run_folder)
 export(create_run_folder)
 export(mod_info)
+export(nm_lic_info)
 export(nm_run)
 export(read_sdtab)
 export(remove_run_folder)
